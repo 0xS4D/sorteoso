@@ -12,32 +12,39 @@ export default function Form() {
   const totalTickets = useMemo(() => listaParticipantes.reduce((total, p) => total + p.qty, 0), [listaParticipantes])
 
   function sortear() {
-    if (historico[indicePremio]) {
-      return
-    }
-
-    const sorteo = Math.floor(Math.random() * totalTickets) + 1
-    let acumulador = 0
-
+    const sorteo = Math.floor(Math.random() * totalTickets) + 1;
+    let acumulador = 0;
+  
     for (let i = 0; i < listaParticipantes.length; i++) {
-      acumulador += listaParticipantes[i].qty
+      acumulador += listaParticipantes[i].qty;
       if (sorteo <= acumulador) {
-        const ganadorActualizado = listaParticipantes[i]
-        setGanador(ganadorActualizado)
+        const ganadorActualizado = listaParticipantes[i];
+        setGanador(ganadorActualizado);
         setHistorico((prevHistorico) => {
-          const newHistorico = [...prevHistorico]
-          newHistorico[indicePremio] = {ganador: ganadorActualizado, premio: premios[indicePremio]}
-          return newHistorico
-        })
+          if (prevHistorico[indicePremio]) {
+            const ganadorAnterior = prevHistorico[indicePremio].ganador;
+            setListaParticipantes((prevParticipantes) => {
+              return prevParticipantes.map((participante) => {
+                if (participante.id === ganadorAnterior.id) {
+                  return {...participante, qty: participante.qty + 1};
+                }
+                return participante;
+              });
+            });
+          }
+          const newHistorico = [...prevHistorico];
+          newHistorico[indicePremio] = {ganador: ganadorActualizado, premio: premios[indicePremio]};
+          return newHistorico;
+        });
         setListaParticipantes((prevParticipantes) => {
           return prevParticipantes.map((participante) => {
             if (participante.id === ganadorActualizado.id) {
-              return {...participante, qty: participante.qty - 1}
+              return {...participante, qty: participante.qty - 1};
             }
-            return participante
-          })
-        })
-        break
+            return participante;
+          });
+        });
+        break;
       }
     }
   }

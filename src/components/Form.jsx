@@ -21,13 +21,7 @@ export default function Form() {
         const ganadorActualizado = listaParticipantes[i]
         setGanador(ganadorActualizado)
         setHistorico((prevHistorico) => {
-          if (prevHistorico.length > indicePremio) {
-            const newHistorico = [...prevHistorico]
-            newHistorico[indicePremio] = {ganador: ganadorActualizado, premio: premios[indicePremio]}
-            return newHistorico
-          } else {
-            return [...prevHistorico, {ganador: ganadorActualizado, premio: premios[indicePremio]}]
-          }
+          return [...prevHistorico, {ganador: ganadorActualizado, premio: premios[indicePremio], numeroPremio: indicePremio}]
         })
         setListaParticipantes((prevParticipantes) => {
           return prevParticipantes.map((participante) => {

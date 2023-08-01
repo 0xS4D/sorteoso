@@ -2,12 +2,17 @@ import Huella from '../assets/huella'
 import {premios} from '../db/premios'
 import {participantes} from '../db/participantes'
 import useSorteo from '../customHooks/useSorteo'
+import { useWindowSize } from "@uidotdev/usehooks";
+import Confetti from 'react-confetti'
 
 export default function Form() {
-  const { ganador, sortear, anterior, siguiente, indicePremio } = useSorteo(participantes, premios);
+  const size = useWindowSize();
+  const {ganador, sortear, anterior, siguiente, indicePremio} = useSorteo(participantes, premios)
 
   return (
     <>
+      {/* Solo los conffetis cuando hay ganador */}
+      {ganador && <Confetti width={size.width} height={size.height} />}
       <div className='relative bg-[#ffffff11] backdrop-blur-md border-[5px] border-orange-500 w-full sm:h-auto sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3 rounded-3xl px-5 flex flex-col items-center justify-between'>
         <div className='absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white font-bold p-1 rounded-bl-lg'>
           #{premios[indicePremio].id}

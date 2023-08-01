@@ -1,75 +1,10 @@
-import {useState, useMemo} from 'react'
 import Huella from '../assets/huella'
 import {premios} from '../db/premios'
 import {participantes} from '../db/participantes'
+import useSorteo from '../customHooks/useSorteo'
 
 export default function Form() {
-  const [indicePremio, setIndicePremio] = useState(0)
-  const [ganador, setGanador] = useState(null)
-  const [historico, setHistorico] = useState([])
-  const [listaParticipantes, setListaParticipantes] = useState(participantes)
-
-  const totalTickets = useMemo(() => listaParticipantes.reduce((total, p) => total + p.qty, 0), [listaParticipantes])
-
-  function sortear() {
-    const sorteo = Math.floor(Math.random() * totalTickets) + 1
-    let acumulador = 0
-
-    for (let i = 0; i < listaParticipantes.length; i++) {
-      acumulador += listaParticipantes[i].qty
-      if (sorteo <= acumulador) {
-        const ganadorActualizado = listaParticipantes[i]
-        setGanador(ganadorActualizado)
-        setHistorico((prevHistorico) => {
-          if (prevHistorico[indicePremio]) {
-            const ganadorAnterior = prevHistorico[indicePremio].ganador
-            setListaParticipantes((prevParticipantes) => {
-              return prevParticipantes.map((participante) => {
-                if (participante.id === ganadorAnterior.id) {
-                  return {...participante, qty: participante.qty + 1}
-                }
-                return participante
-              })
-            })
-          }
-          const newHistorico = [...prevHistorico]
-          newHistorico[indicePremio] = {ganador: ganadorActualizado, premio: premios[indicePremio]}
-          return newHistorico
-        })
-        setListaParticipantes((prevParticipantes) => {
-          return prevParticipantes.map((participante) => {
-            if (participante.id === ganadorActualizado.id) {
-              return {...participante, qty: participante.qty - 1}
-            }
-            return participante
-          })
-        })
-        break
-      }
-    }
-  }
-
-  function anterior() {
-    if (indicePremio > 0) {
-      setIndicePremio(indicePremio - 1)
-      if (historico[indicePremio - 1]) {
-        setGanador(historico[indicePremio - 1].ganador)
-      } else {
-        setGanador(null)
-      }
-    }
-  }
-
-  function siguiente() {
-    if (indicePremio < premios.length - 1) {
-      setIndicePremio(indicePremio + 1)
-      if (historico[indicePremio + 1]) {
-        setGanador(historico[indicePremio + 1].ganador)
-      } else {
-        setGanador(null)
-      }
-    }
-  }
+  const { ganador, sortear, anterior, siguiente, indicePremio } = useSorteo(participantes, premios);
 
   return (
     <>
@@ -88,7 +23,7 @@ export default function Form() {
           </div>
         </div>
       </div>
-      <div className='flex flex-col items-end w-64 pt-3'>
+      <div className='flex flex-col items-end w-80 pt-3'>
         <button
           className='bg-[#0000008c] backdrop-blur-md border-orange-500 border-2 text-white font-bold w-full flex justify-center items-center h-10 rounded-2xl cursor-pointer hover:bg-orange-500 mb-5'
           onClick={sortear}
@@ -98,13 +33,13 @@ export default function Form() {
         </button>
         <div className='flex w-full justify-between'>
           <button
-            className='bg-[#0000008c] backdrop-blur-md border-orange-500 border-2 text-white font-bold w-44 flex justify-center items-center h-8 rounded-2xl cursor-pointer mr-2'
+            className='bg-[#0000008c] backdrop-blur-md border-orange-500 border-2 text-white font-bold w-44 flex justify-center items-center h-10 rounded-2xl cursor-pointer mr-2'
             onClick={anterior}
           >
             Atrás
           </button>
           <button
-            className='bg-[#0000008c] backdrop-blur-md border-orange-500 border-2 text-white font-bold w-44 flex justify-center items-center h-8 rounded-2xl cursor-pointer ml-2'
+            className='bg-[#0000008c] backdrop-blur-md border-orange-500 border-2 text-white font-bold w-44 flex justify-center items-center h-10 rounded-2xl cursor-pointer ml-2'
             onClick={siguiente}
           >
             Siguiente

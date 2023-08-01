@@ -15,7 +15,7 @@ export const premios = [
   {id: 14, premio: '1 tarta de jyq y 1 docena de empanadas de pollo frizadas', auth: '@mariangeles_galarza'},
   {id: 15, premio: '1 mes de yoga gratis', auth: '@hatha_yoga21'},
   {id: 16, premio: '1 budín verano sabor a elección', auth: '@anianiaifood'},
-  {id: 17, premio: '1 sesión de reiki de roca terapias históricas'},
+  {id: 17, premio: '1 sesión de reiki de roca terapias históricas', auth: 'Roca Terapias Históricas'},
   {id: 18, premio: '1 regalo de Delidrinks', auth: '@delidrinks.chaco'},
   {id: 19, premio: '1 regalo de Messirve tu ropa', auth: '@messirveturopa'},
   {id: 20, premio: '1 esmaltado semi permanente', auth: '@tusunasbyanto'},

@@ -90,7 +90,7 @@ export default function Form() {
       </div>
       <div className='flex flex-col items-end w-64 pt-3'>
         <button
-          className='bg-black text-white font-bold w-full flex justify-center items-center h-10 rounded-2xl cursor-pointer hover:bg-orange-500 mb-5'
+          className='bg-[#0000008c] backdrop-blur-md border-orange-500 border-2 text-white font-bold w-full flex justify-center items-center h-10 rounded-2xl cursor-pointer hover:bg-orange-500 mb-5'
           onClick={sortear}
         >
           <Huella className='w-7 m-2' color='#fff' /> ¡Sortear!
@@ -98,13 +98,13 @@ export default function Form() {
         </button>
         <div className='flex w-full justify-between'>
           <button
-            className='bg-orange-500 text-white font-bold w-44 flex justify-center items-center h-8 rounded-2xl cursor-pointer mr-2'
+            className='bg-[#0000008c] backdrop-blur-md border-orange-500 border-2 text-white font-bold w-44 flex justify-center items-center h-8 rounded-2xl cursor-pointer mr-2'
             onClick={anterior}
           >
             Atrás
           </button>
           <button
-            className='bg-orange-500 text-white font-bold w-44 flex justify-center items-center h-8 rounded-2xl cursor-pointer ml-2'
+            className='bg-[#0000008c] backdrop-blur-md border-orange-500 border-2 text-white font-bold w-44 flex justify-center items-center h-8 rounded-2xl cursor-pointer ml-2'
             onClick={siguiente}
           >
             Siguiente

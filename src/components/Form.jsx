@@ -12,6 +12,10 @@ export default function Form() {
   const totalTickets = useMemo(() => listaParticipantes.reduce((total, p) => total + p.qty, 0), [listaParticipantes])
 
   function sortear() {
+    if (historico[indicePremio]) {
+      return
+    }
+
     const sorteo = Math.floor(Math.random() * totalTickets) + 1
     let acumulador = 0
 
@@ -21,7 +25,9 @@ export default function Form() {
         const ganadorActualizado = listaParticipantes[i]
         setGanador(ganadorActualizado)
         setHistorico((prevHistorico) => {
-          return [...prevHistorico, {ganador: ganadorActualizado, premio: premios[indicePremio], numeroPremio: indicePremio}]
+          const newHistorico = [...prevHistorico]
+          newHistorico[indicePremio] = {ganador: ganadorActualizado, premio: premios[indicePremio]}
+          return newHistorico
         })
         setListaParticipantes((prevParticipantes) => {
           return prevParticipantes.map((participante) => {
